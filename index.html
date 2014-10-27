@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crime Study of Washington DC</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Crime Study of Washington DC">
+  <meta name="author" content="Sahar M">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Crime Study of Washington DC</h1>
+    <h2>Years 2011,2012,2013</h2>
+    <p>Sahar M<br/>Student</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Introduction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Different kinds of offense happens troughout a year in different parts of Washington DC. The &quot;Crime Study&quot; application gives total number of incidents happend in each district of Washington DC for a three year period; 2011, 2012 and 2013.</p>
+
+<p>Application link: 
+<a href="https://smirshamsi.shinyapps.io/Crime_Study/">https://smirshamsi.shinyapps.io/Crime_Study/</a></p>
+
+<p>Data Source: 
+<a href="http://data.octo.dc.gov/Main_DataCatalog.aspx">http://data.octo.dc.gov/Main_DataCatalog.aspx</a></p>
+
+<p>Output of this application is a color coded histogram of subject crime versus different districts of Washington DC.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>User Interface</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>In this application, interface allows the user to choose what kind of offense is he interested in.</p>
+
+<pre><code class="r">choices=list(&quot;HOMICIDE&quot;, &quot;SEX ABUSE&quot;, &quot;BURGLARY&quot;, &quot;ROBBERY&quot;, 
+             &quot;THEFT F/AUTO&quot;, &quot;ASSAULT W/DANGEROUS WEAPON&quot;, 
+             &quot;MOTOR VEHICLE THEFT&quot;, &quot;ARSON&quot;, &quot;THEFT/OTHER&quot;)
+</code></pre>
+
+<p><img src="Screenshot.png" alt="width"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Download and Preparation of Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>In the next step, the source data is downloaded, unziped and then split according different kinds of offenses.</p>
+
+<pre><code class="r">t1&lt;-tempfile(fileext=&quot;.zip&quot;)
+download.file(&quot;http://data.octo.dc.gov/feeds/crime_incidents/archive/crime_incidents_2011_CSV.zip&quot;,method=&quot;curl&quot;,t1)#method=&quot;curl&quot;,destfile = &quot;t1&quot;)
+d11&lt;-read.csv(unzip(t1))
+unlink(t1)
+
+off_11&lt;-split(d11,d11$OFFENSE)
+</code></pre>
+
+<p>Using &quot;lapply&quot; and &quot;table&quot;, one can find total number of incidents for each kind of offense.</p>
+
+<pre><code class="r">num_off_11&lt;-lapply(off_11,function(y) table(y$DISTRICT))
+print(num_off_11$ARSON)
+</code></pre>
+
+<pre><code>## 
+##   FIFTH   FIRST  FOURTH    NONE  SECOND SEVENTH   SIXTH   THIRD 
+##      12       5       5       0       1       5      12       4
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Histogram</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>After repeating the process for all the three files, and making one matrix out of all the results, a barplot of crime&#39;s statistics can be made;</p>
+
+<p><img src="assets/fig/unnamed-chunk-5.png" alt="plot of chunk unnamed-chunk-5"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Introduction'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='User Interface'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Download and Preparation of Data'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Histogram'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
